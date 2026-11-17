@@ -1,0 +1,47 @@
+{
+  "name": {
+    "tr": "Ulaşım",
+    "en": "Getting here",
+    "ar": "الوصول"
+  },
+  "status": "play",
+  "category": "",
+  "id": "iletisim",
+  "url": "",
+  "path": "iletisim",
+  "index": 2,
+  "icon": "directions",
+  "desing": {
+    "header": [],
+    "body": [
+      "ztnbxr",
+      "k8mp01"
+    ],
+    "footer": []
+  },
+  "pathnext": "",
+  "description": {
+    "tr": "Adres, giriş, telefon, WhatsApp ve saatler.",
+    "en": "Address, entrance, phone, WhatsApp and hours.",
+    "ar": "العنوان والمدخل والهاتف وواتساب والساعات."
+  },
+  "spot": {
+    "tr": "",
+    "en": "",
+    "ar": ""
+  },
+  "desc": {},
+  "title": {
+    "tr": "Ulaşım",
+    "en": "Getting here",
+    "ar": "الوصول"
+  },
+  "keyword": {
+    "tr": "iletişim",
+    "en": "contact",
+    "ar": "اتصال"
+  },
+  "text": {},
+  "update": "2026-11-16T22:37:48.421Z",
+  "date": "2026-10-30"
+}

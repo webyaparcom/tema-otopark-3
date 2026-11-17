@@ -1,0 +1,52 @@
+{
+  "name": "Randevu Zaman Ekseni — günün saat cetvelinde süre bloğu",
+  "description": "Kart içinde üstte hizmet çipleri, tarih ve uzman; ortada günün açılış–kapanış aralığını orantılı çizen yatay saat cetveli: saat çizikleri, taralı mola bölgeleri ve konumu saatine göre hesaplanmış saat kutuları. Saat seçilince seçili hizmetin süresi kadar uzunlukta süre bloğu eksende belirir, «09:00 – 10:00» okuması yazılır; süre mola ya da kapanışa taşarsa blok uyarı desenine döner. Altta üç sütunlu bilgiler, not, KVKK ve gönder. Mobilde eksen yatay kayar. JS yokken saat kutuları normal radyo olarak seçilir. randevu-saat-izgara saatleri gün dilimi sütunlarına, randevu-ajanda dikey listeye dizer; bu modül saatleri gerçek zaman ölçeğinde (konum = saat, genişlik = süre) tek eksene yerleştirir, molaları taralı bölge olarak gösterir ve seçili hizmet süresini eksende blok olarak çizer (eksen parçası) — süre taşmasını görsel uyaran tek modül. Sunucusuz gönderim (formAction JSON POST › WhatsApp › .ics › mailto), kapalı gün denetimi, KVKK onayı. Metinler dil sözlüğü, renkler desing + var(--mx-site-*), mantıksal CSS → RTL. Gönderim yolu yoksa blok basılmaz.",
+  "version": "1.0.0",
+  "icon": "view_timeline",
+  "category": "randevu",
+  "subCategory": "time-axis",
+  "tags": [
+    "randevu",
+    "time-axis",
+    "timeline",
+    "duration",
+    "ruler",
+    "rtl",
+    "fabrika"
+  ],
+  "desing": {
+    "max": "1200px",
+    "bosluk": "clamp(56px, 8vw, 104px)",
+    "yuvarlak": "18px",
+    "ust": "",
+    "baslik": "",
+    "metin": "",
+    "bg": "var(--mx-site-bg, #ffffff)",
+    "text": "var(--mx-site-text, #111318)",
+    "muted": "color-mix(in srgb, var(--mx-site-text, #111318) 68%, var(--mx-site-bg, #ffffff))",
+    "kartBg": "var(--mx-site-surface, #f6f7f9)",
+    "cizgi": "color-mix(in srgb, var(--mx-site-text, #111318) 12%, transparent)",
+    "accent": "var(--mx-site-primary, #2563eb)",
+    "accentInk": "color-mix(in srgb, var(--mx-site-primary, #2563eb) 70%, var(--mx-site-text, #111318))",
+    "accentText": "var(--mx-site-primary-contrast, #ffffff)",
+    "vurguBg": "var(--mx-site-primary, #2563eb)",
+    "vurguText": "var(--mx-site-primary-contrast, #ffffff)",
+    "asimAd": "",
+    "bgcolor": "var(--mx-site-bg, #ffffff)",
+    "color": "var(--mx-site-text, #111318)"
+  },
+  "data": [],
+  "veri": {
+    "statik": true,
+    "dinamik": false,
+    "kaynak": "desing",
+    "alanlar": {
+      "ad": "hizmet adı (dil sözlüğü, zorunlu) — eski `services[].name`",
+      "sure": "dakika — eski `duration`",
+      "fiyat": "sayı (sayfa diliyle biçimlenir) — eski `price`",
+      "ikon": "Material Symbols adı",
+      "metin": "kısa açıklama (dil sözlüğü)",
+      "img": "görsel (destekleyen yerleşimde)"
+    }
+  }
+}

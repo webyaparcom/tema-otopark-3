@@ -1,0 +1,123 @@
+<section class="modulex-otopark-sure-cetveli{{fbsinif}}" {{fbetiket}}>
+  <div class="modulex-otopark-sure-cetveli-ic">
+    {{fbbas}}
+    {{fbgovde}}
+  </div>
+</section>
+
+<style>
+  /* otopark-sure-cetveli — kargo-desi-hesap'ın çok alanlı formu + bölge × desi matrisinden farkı: tek sürgü ve süreyle orantılı genişlikte dilim bölümlerinden oluşan cetvel (çentikli eksen, etkin dilim kalkar); hafta-zaman-cizelgesi'nin eşit aralıklı hafta işaretlerinden farklı olarak bölüm genişliği süre ile ölçeklenir. */
+  .modulex-otopark-sure-cetveli { box-sizing: border-box; width: 100%; padding: --bosluk-- 20px; background: --bg--; color: --text--; font-size: 1rem; line-height: 1.6; font-family: var(--mx-font-sans, inherit); overflow-wrap: break-word; }
+  .modulex-otopark-sure-cetveli *, .modulex-otopark-sure-cetveli *::before, .modulex-otopark-sure-cetveli *::after { box-sizing: border-box; }
+  /* ham/css.css «* { font-size: 14px }» kalıtımı keser — modül içinde boyut üstten gelsin (ikon yazı tipi hariç) */
+  .modulex-otopark-sure-cetveli :where(*:not(.material-symbols-outlined)) { font-size: inherit; }
+  /* aynı «*» kuralı font-weight 400 · line-height 1.2 · font-family de basar — modül içinde kalıtım */
+  .modulex-otopark-sure-cetveli :where(*:not(.material-symbols-outlined)) { font-weight: inherit; line-height: inherit; font-family: inherit; }
+  .modulex-otopark-sure-cetveli :where(h2, h3, h4, p, ul, ol, li, figure, blockquote, dl, dd) { margin: 0; }
+  .modulex-otopark-sure-cetveli :where(ul, ol) { padding: 0; list-style: none; }
+  .modulex-otopark-sure-cetveli img { display: block; max-width: 100%; }
+  /* <img width height> öznitelik yüksekliği CSS aspect-ratio'yu ezer — sıfır özgüllükle auto (modül sınıfının height'ı yine kazanır) */
+  :where(.modulex-otopark-sure-cetveli) img { height: auto; }
+  .modulex-otopark-sure-cetveli [hidden] { display: none !important; }
+  .modulex-otopark-sure-cetveli :where(a, button, summary, [data-cevir]) { cursor: pointer; }
+  .modulex-otopark-sure-cetveli :where(a, button, summary, [tabindex]):focus-visible { outline: 3px solid --accent--; outline-offset: 3px; }
+  .modulex-otopark-sure-cetveli-ic { max-width: --max--; margin-inline: auto; }
+  .modulex-otopark-sure-cetveli-bas { display: grid; gap: 12px; margin-block-end: clamp(32px, 4vw, 52px); }
+  .modulex-otopark-sure-cetveli--bassiz .modulex-otopark-sure-cetveli-bas { display: none; }
+  .modulex-otopark-sure-cetveli-ust { color: --accentInk--; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .modulex-otopark-sure-cetveli-baslik { font-family: var(--mx-font-heading, inherit); font-size: clamp(1.8rem, 3.4vw, 2.8rem); font-weight: 750; letter-spacing: -0.025em; line-height: 1.1; }
+  .modulex-otopark-sure-cetveli-metin { color: --muted--; font-size: 1.05rem; line-height: 1.7; }
+  .modulex-otopark-sure-cetveli-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 8px; }
+  .modulex-otopark-sure-cetveli-dugme { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 12px 22px; border: 2px solid --accent--; border-radius: 999px; background: --accent--; color: --accentText--; font-weight: 700; text-decoration: none; transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease; }
+  .modulex-otopark-sure-cetveli-dugme:hover { transform: translateY(-2px); }
+  .modulex-otopark-sure-cetveli-dugme--ikincil { background: transparent; color: --text--; border-color: --cizgi--; }
+  .modulex-otopark-sure-cetveli-dugme--ikincil:hover { border-color: --accent--; }
+  .modulex-otopark-sure-cetveli-dugme .material-symbols-outlined { font-size: 20px; }
+
+  .modulex-otopark-sure-cetveli-giris { display: grid; gap: 14px; max-width: 720px; margin-block-end: clamp(28px, 4vw, 44px); }
+  .modulex-otopark-sure-cetveli-cetvel-kap { display: grid; gap: 34px; padding: clamp(20px, 3vw, 34px); border: 2px solid --text--; border-radius: --yuvarlak--; background: --kartBg--; }
+  .modulex-otopark-sure-cetveli-cetvel { position: relative; display: grid; grid-template-columns: var(--fb-sutun); min-height: 132px; padding-block-end: 30px; }
+  .modulex-otopark-sure-cetveli-sifir { position: absolute; inset-block-end: 0; inset-inline-start: 0; color: --muted--; font-size: 0.75rem; font-weight: 700; }
+  .modulex-otopark-sure-cetveli-dilim::after { content: ""; position: absolute; inset-inline: -2px 0; inset-block-end: -22px; height: 10px; background: repeating-linear-gradient(90deg, --text-- 0 2px, transparent 2px calc(100% / var(--fb-g))); }
+  .modulex-otopark-sure-cetveli-dilim { position: relative; display: grid; align-content: start; gap: 4px; min-width: 0; margin-block-end: 18px; padding: 12px 10px; border-inline-start: 2px solid --text--; background-color: color-mix(in srgb, --accent-- 10%, --kartBg--); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.3s ease, color 0.3s ease; }
+  .modulex-otopark-sure-cetveli-dilim:nth-child(odd) { background-color: color-mix(in srgb, --accent-- 20%, --kartBg--); }
+  .modulex-otopark-sure-cetveli-dilim.modulex-otopark-sure-cetveli--aktif { z-index: 1; background-color: --vurguBg--; color: --vurguText--; transform: translateY(-10px); box-shadow: 0 14px 24px -18px color-mix(in srgb, --text-- 80%, transparent); }
+  .modulex-otopark-sure-cetveli-dad { overflow: hidden; font-size: 0.78rem; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+  .modulex-otopark-sure-cetveli-dfiyat { font-size: clamp(1rem, 1.8vw, 1.35rem); font-weight: 850; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .modulex-otopark-sure-cetveli-dbit { position: absolute; inset-block-end: -48px; inset-inline-end: 0; color: --muted--; font-size: 0.75rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .modulex-otopark-sure-cetveli-skap { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px 28px; }
+  .modulex-otopark-sure-cetveli-setiket { grid-column: 1 / -1; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; }
+  .modulex-otopark-sure-cetveli-surgu { width: 100%; height: 34px; accent-color: --accent--; cursor: pointer; }
+  .modulex-otopark-sure-cetveli-sonuc { display: grid; grid-template-columns: auto auto; align-items: baseline; gap: 2px 16px; }
+  .modulex-otopark-sure-cetveli-sure { font-size: 1.1rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .modulex-otopark-sure-cetveli-sdil { color: --muted--; font-size: 0.85rem; }
+  .modulex-otopark-sure-cetveli-tutar { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 10px; }
+  .modulex-otopark-sure-cetveli-tutar span { color: --muted--; font-size: 0.8rem; font-weight: 750; text-transform: uppercase; }
+  .modulex-otopark-sure-cetveli-tutar strong { color: --accentInk--; font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: 850; font-variant-numeric: tabular-nums; }
+  .modulex-otopark-sure-cetveli-ekler { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 14px; margin-block-start: 22px; }
+  .modulex-otopark-sure-cetveli-ek { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1.5px dashed --cizgi--; border-radius: --yuvarlak--; transition: border-color 0.25s ease; }
+  .modulex-otopark-sure-cetveli-ek:hover { border-color: --accent--; }
+  .modulex-otopark-sure-cetveli-ekik { color: --accentInk--; font-size: 28px; }
+  .modulex-otopark-sure-cetveli-ekyazi { flex: 1; min-width: 0; }
+  .modulex-otopark-sure-cetveli-ekad { font-size: 1rem; font-weight: 750; }
+  .modulex-otopark-sure-cetveli-ekmetin { color: --muted--; font-size: 0.86rem; }
+  .modulex-otopark-sure-cetveli-ekfiyat { font-size: 1.15rem; font-weight: 850; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .modulex-otopark-sure-cetveli-ekler + .modulex-otopark-sure-cetveli-cta, .modulex-otopark-sure-cetveli-cetvel-kap + .modulex-otopark-sure-cetveli-cta { margin-block-start: 28px; }
+  @media (max-width: 768px) {
+    .modulex-otopark-sure-cetveli-cetvel-kap { padding-inline: 12px; }
+    .modulex-otopark-sure-cetveli-cetvel { --fb-en: 60px; min-height: 110px; }
+    .modulex-otopark-sure-cetveli-dilim { padding: 10px 4px; }
+    .modulex-otopark-sure-cetveli-dad { font-size: 0.66rem; }
+    .modulex-otopark-sure-cetveli-dfiyat { font-size: 0.78rem; }
+    .modulex-otopark-sure-cetveli-skap { grid-template-columns: minmax(0, 1fr); }
+  }
+  .modulex-otopark-sure-cetveli-bag { color: inherit; text-decoration: none; }
+  .modulex-otopark-sure-cetveli-bag:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .modulex-otopark-sure-cetveli-mbaslik { font-size: 1.05rem; font-weight: 700; }
+  .modulex-otopark-sure-cetveli-mmetin { color: --muted--; font-size: 0.95rem; }
+
+  :is([lang="ar"], [lang="fa"], [lang="he"], [lang="ur"]) .modulex-otopark-sure-cetveli :is(.modulex-otopark-sure-cetveli-baslik, .modulex-otopark-sure-cetveli-ust, h3, h4, strong) { letter-spacing: 0; }
+  :is([lang="ar"], [lang="fa"], [lang="he"], [lang="ur"]) .modulex-otopark-sure-cetveli-baslik { line-height: 1.35; }
+  @media (max-width: 768px) {
+    .modulex-otopark-sure-cetveli { padding-inline: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .modulex-otopark-sure-cetveli *, .modulex-otopark-sure-cetveli *::before, .modulex-otopark-sure-cetveli *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+<script>
+  (() => {
+    const P = "modulex-otopark-sure-cetveli";
+    const az = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    const sureCetvel = (s, P) => {
+        const r = s.querySelector("[data-sure]");
+        if (!r) return;
+        s.classList.add(P + "--js");
+        const kap = s.querySelector("[data-skap]");
+        if (kap) kap.hidden = false;
+        const seg = [...s.querySelectorAll("[data-bitis]")];
+        const dl = document.documentElement.lang || undefined;
+        const pb = r.dataset.para || "";
+        const bic = (n) => { try { return new Intl.NumberFormat(dl, pb ? { style: "currency", currency: pb, maximumFractionDigits: n % 1 ? 2 : 0 } : { maximumFractionDigits: 2 }).format(n); } catch (x) { return String(n); } };
+        const say = (n) => { try { return new Intl.NumberFormat(dl, { maximumFractionDigits: 1 }).format(n); } catch (x) { return String(n); } };
+        const out = s.querySelector("[data-scikti]");
+        const tut = s.querySelector("[data-stutar]");
+        const dil = s.querySelector("[data-sdilim]");
+        const ciz = () => {
+          const v = Number(r.value);
+          const a = seg.find((x) => v <= Number(x.dataset.bitis)) || seg[seg.length - 1];
+          seg.forEach((x) => x.classList.toggle(P + "--aktif", x === a));
+          if (out) out.textContent = say(v) + " " + (r.dataset.birim || "");
+          if (tut) tut.textContent = a && a.dataset.fiyat ? bic(Number(a.dataset.fiyat)) : "—";
+          if (dil) dil.textContent = a ? a.dataset.ad || "" : "";
+        };
+        r.addEventListener("input", ciz);
+        ciz();
+      };
+    document.querySelectorAll("." + P).forEach((s) => {
+      if (s.dataset.fbHazir) return;
+      s.dataset.fbHazir = "1";
+      sureCetvel(s, P, az);
+    });
+  })();
+</script>

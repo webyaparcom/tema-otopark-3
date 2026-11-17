@@ -1,0 +1,396 @@
+<section class="modulex-randevu-zaman-ekseni{{fbsinif}}" {{fbetiket}}>
+  <div class="modulex-randevu-zaman-ekseni-ic">
+    {{fbbas}}
+    {{fbgovde}}
+  </div>
+</section>
+
+<style>
+  /* randevu-zaman-ekseni — randevu-saat-izgara saatleri gün dilimi sütunlarına, randevu-ajanda dikey listeye dizer; bu modül saatleri gerçek zaman ölçeğinde (konum = saat, genişlik = süre) tek eksene yerleştirir, molaları taralı bölge olarak gösterir ve seçili hizmet süresini eksende blok olarak çizer (eksen parçası) — süre taşmasını görsel uyaran tek modül. */
+  .modulex-randevu-zaman-ekseni { box-sizing: border-box; width: 100%; padding: --bosluk-- 20px; background: --bg--; color: --text--; font-size: 1rem; line-height: 1.6; font-family: var(--mx-font-sans, inherit); overflow-wrap: break-word; }
+  .modulex-randevu-zaman-ekseni *, .modulex-randevu-zaman-ekseni *::before, .modulex-randevu-zaman-ekseni *::after { box-sizing: border-box; }
+  /* ham/css.css «* { font-size: 14px }» kalıtımı keser — modül içinde boyut üstten gelsin (ikon yazı tipi hariç) */
+  .modulex-randevu-zaman-ekseni :where(*:not(.material-symbols-outlined)) { font-size: inherit; }
+  /* aynı «*» kuralı font-weight 400 · line-height 1.2 · font-family de basar — modül içinde kalıtım */
+  .modulex-randevu-zaman-ekseni :where(*:not(.material-symbols-outlined)) { font-weight: inherit; line-height: inherit; font-family: inherit; }
+  .modulex-randevu-zaman-ekseni :where(h2, h3, h4, p, ul, ol, li, figure, blockquote, dl, dd) { margin: 0; }
+  .modulex-randevu-zaman-ekseni :where(ul, ol) { padding: 0; list-style: none; }
+  .modulex-randevu-zaman-ekseni img { display: block; max-width: 100%; }
+  /* <img width height> öznitelik yüksekliği CSS aspect-ratio'yu ezer — sıfır özgüllükle auto (modül sınıfının height'ı yine kazanır) */
+  :where(.modulex-randevu-zaman-ekseni) img { height: auto; }
+  .modulex-randevu-zaman-ekseni [hidden] { display: none !important; }
+  .modulex-randevu-zaman-ekseni :where(a, button, summary, [data-cevir]) { cursor: pointer; }
+  .modulex-randevu-zaman-ekseni :where(a, button, summary, [tabindex]):focus-visible { outline: 3px solid --accent--; outline-offset: 3px; }
+  .modulex-randevu-zaman-ekseni-ic { max-width: --max--; margin-inline: auto; }
+  .modulex-randevu-zaman-ekseni-bas { display: grid; gap: 12px; margin-block-end: clamp(32px, 4vw, 52px); }
+  .modulex-randevu-zaman-ekseni--bassiz .modulex-randevu-zaman-ekseni-bas { display: none; }
+  .modulex-randevu-zaman-ekseni-ust { color: --accentInk--; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .modulex-randevu-zaman-ekseni-baslik { font-family: var(--mx-font-heading, inherit); font-size: clamp(1.8rem, 3.4vw, 2.8rem); font-weight: 750; letter-spacing: -0.025em; line-height: 1.1; }
+  .modulex-randevu-zaman-ekseni-metin { color: --muted--; font-size: 1.05rem; line-height: 1.7; }
+  .modulex-randevu-zaman-ekseni-bas { max-width: 760px; }
+  .modulex-randevu-zaman-ekseni-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 8px; }
+  .modulex-randevu-zaman-ekseni-dugme { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 12px 22px; border: 2px solid --accent--; border-radius: 999px; background: --accent--; color: --accentText--; font-weight: 700; text-decoration: none; transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease; }
+  .modulex-randevu-zaman-ekseni-dugme:hover { transform: translateY(-2px); }
+  .modulex-randevu-zaman-ekseni-dugme--ikincil { background: transparent; color: --text--; border-color: --cizgi--; }
+  .modulex-randevu-zaman-ekseni-dugme--ikincil:hover { border-color: --accent--; }
+  .modulex-randevu-zaman-ekseni-dugme .material-symbols-outlined { font-size: 20px; }
+
+  .modulex-randevu-zaman-ekseni-form { position: relative; display: grid; gap: 18px; }
+  .modulex-randevu-zaman-ekseni-alanlar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .modulex-randevu-zaman-ekseni-alan { display: grid; align-content: start; gap: 6px; min-width: 0; }
+  .modulex-randevu-zaman-ekseni-alan--genis { grid-column: 1 / -1; }
+  .modulex-randevu-zaman-ekseni-etiket { color: --text--; font-size: 0.9rem; font-weight: 650; }
+  .modulex-randevu-zaman-ekseni-zor { color: --accentInk--; }
+  .modulex-randevu-zaman-ekseni-girdi { width: 100%; min-height: 48px; padding: 11px 14px; border: 1.5px solid color-mix(in srgb, --text-- 32%, transparent); border-radius: calc(--yuvarlak-- * 0.6); background-color: --bg--; color: --text--; font: inherit; transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+  textarea.modulex-randevu-zaman-ekseni-girdi { min-height: 108px; resize: vertical; }
+  .modulex-randevu-zaman-ekseni-girdi:hover { border-color: color-mix(in srgb, --text-- 55%, transparent); }
+  .modulex-randevu-zaman-ekseni-girdi:focus { border-color: --accent--; outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, --accent-- 28%, transparent); }
+  .modulex-randevu-zaman-ekseni-grup { display: grid; gap: 10px; min-width: 0; margin: 0; padding: 0; border: 0; }
+  .modulex-randevu-zaman-ekseni-grup > legend { padding: 0; margin-block-end: 10px; }
+  .modulex-randevu-zaman-ekseni-secenekler { display: flex; flex-wrap: wrap; gap: 8px; }
+  .modulex-randevu-zaman-ekseni-radyo { position: absolute; inset-block-start: 0; inset-inline-start: 0; inline-size: 1px; block-size: 1px; opacity: 0; pointer-events: none; }
+  .modulex-randevu-zaman-ekseni-cip, .modulex-randevu-zaman-ekseni-saat, .modulex-randevu-zaman-ekseni-hkart { position: relative; display: inline-flex; cursor: pointer; }
+  .modulex-randevu-zaman-ekseni-cyazi, .modulex-randevu-zaman-ekseni-syazi { display: inline-flex; flex-direction: column; justify-content: center; min-height: 44px; padding: 8px 16px; border: 1.5px solid color-mix(in srgb, --text-- 30%, transparent); border-radius: 999px; background-color: --bg--; color: --text--; font-weight: 650; line-height: 1.25; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+  .modulex-randevu-zaman-ekseni-syazi { min-width: 74px; align-items: center; font-variant-numeric: tabular-nums; }
+  .modulex-randevu-zaman-ekseni-cyazi small { color: --muted--; font-size: 0.8rem; font-weight: 500; }
+  .modulex-randevu-zaman-ekseni-cip:hover .modulex-randevu-zaman-ekseni-cyazi, .modulex-randevu-zaman-ekseni-saat:hover .modulex-randevu-zaman-ekseni-syazi { border-color: --accent--; transform: translateY(-1px); }
+  .modulex-randevu-zaman-ekseni-radyo:checked + :is(.modulex-randevu-zaman-ekseni-cyazi, .modulex-randevu-zaman-ekseni-syazi) { border-color: --accent--; background-color: --accent--; color: --accentText--; }
+  .modulex-randevu-zaman-ekseni-radyo:checked + .modulex-randevu-zaman-ekseni-cyazi small { color: inherit; }
+  .modulex-randevu-zaman-ekseni-radyo:focus-visible + * { outline: 3px solid --accent--; outline-offset: 2px; }
+  .modulex-randevu-zaman-ekseni-dilimler { display: grid; gap: 14px; }
+  .modulex-randevu-zaman-ekseni-dilim { display: grid; gap: 8px; }
+  .modulex-randevu-zaman-ekseni-dbaslik { display: flex; align-items: center; gap: 6px; color: --muted--; font-size: 0.85rem; font-weight: 650; }
+  .modulex-randevu-zaman-ekseni-dbaslik .material-symbols-outlined { font-size: 18px; }
+  .modulex-randevu-zaman-ekseni-gunler { display: flex; gap: 8px; overflow-x: auto; padding-block-end: 6px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+  .modulex-randevu-zaman-ekseni-gun { position: relative; display: grid; flex: none; justify-items: center; gap: 2px; min-width: 66px; padding: 10px 8px; border: 1.5px solid color-mix(in srgb, --text-- 30%, transparent); border-radius: 14px; background-color: --bg--; color: --text--; scroll-snap-align: start; cursor: pointer; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease; }
+  .modulex-randevu-zaman-ekseni-gun:hover { border-color: --accent--; }
+  .modulex-randevu-zaman-ekseni-gun:has(:checked) { border-color: --accent--; background-color: --accent--; color: --accentText--; }
+  .modulex-randevu-zaman-ekseni-gun:has(:focus-visible) { outline: 3px solid --accent--; outline-offset: 2px; }
+  .modulex-randevu-zaman-ekseni-gad, .modulex-randevu-zaman-ekseni-gay { font-size: 0.78rem; font-weight: 600; }
+  .modulex-randevu-zaman-ekseni-gno { font-size: 1.35rem; font-weight: 800; line-height: 1.1; }
+  .modulex-randevu-zaman-ekseni-sayac { display: flex; align-items: stretch; gap: 8px; }
+  .modulex-randevu-zaman-ekseni-kisi { text-align: center; font-variant-numeric: tabular-nums; }
+  .modulex-randevu-zaman-ekseni-adimla { display: inline-grid; flex: none; place-items: center; width: 48px; min-height: 48px; border: 1.5px solid color-mix(in srgb, --text-- 32%, transparent); border-radius: calc(--yuvarlak-- * 0.6); background-color: --bg--; color: --text--; transition: border-color 0.2s ease, background-color 0.2s ease; }
+  .modulex-randevu-zaman-ekseni-adimla:hover { border-color: --accent--; }
+  .modulex-randevu-zaman-ekseni:not(.modulex-randevu-zaman-ekseni--rjs) :is([data-ileri], [data-geri], [data-eksi], [data-arti]) { display: none; }
+  .modulex-randevu-zaman-ekseni-onay { display: flex; align-items: flex-start; gap: 10px; color: --muted--; font-size: 0.9rem; }
+  .modulex-randevu-zaman-ekseni-onaykutu { flex: none; width: 20px; height: 20px; margin: 2px 0 0; accent-color: --accent--; }
+  .modulex-randevu-zaman-ekseni-onay a { color: --accentInk--; font-weight: 650; }
+  .modulex-randevu-zaman-ekseni-gkap { display: grid; justify-items: start; gap: 10px; }
+  .modulex-randevu-zaman-ekseni-gonder:disabled { opacity: 0.6; transform: none; }
+  .modulex-randevu-zaman-ekseni-durum { color: --accentInk--; font-weight: 650; }
+  .modulex-randevu-zaman-ekseni-durum:empty { display: none; }
+  .modulex-randevu-zaman-ekseni-durum--hata { color: --text--; text-decoration: underline wavy; text-decoration-color: --accent--; }
+  .modulex-randevu-zaman-ekseni-adimnav { display: flex; flex-wrap: wrap; gap: 10px; }
+  .modulex-randevu-zaman-ekseni-bal { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); }
+  .modulex-randevu-zaman-ekseni-kanallar { display: grid; gap: 14px; }
+  .modulex-randevu-zaman-ekseni-kanal { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .modulex-randevu-zaman-ekseni-kikon { flex: none; display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 12px; background-color: color-mix(in srgb, --accent-- 14%, transparent); color: --accentInk--; font-size: 22px; }
+  .modulex-randevu-zaman-ekseni-kyazi { display: grid; min-width: 0; }
+  .modulex-randevu-zaman-ekseni-ket { color: --muted--; font-size: 0.8rem; font-weight: 600; }
+  .modulex-randevu-zaman-ekseni-kdeger { color: inherit; font-weight: 700; text-decoration: none; overflow-wrap: anywhere; transition: color 0.2s ease; }
+  .modulex-randevu-zaman-ekseni-kdeger:hover { color: --accentInk--; text-decoration: underline; text-underline-offset: 3px; }
+  .modulex-randevu-zaman-ekseni-cizelge { display: grid; gap: 2px; margin: 0; }
+  .modulex-randevu-zaman-ekseni-csatir { display: flex; justify-content: space-between; gap: 12px; padding-block: 7px; border-block-end: 1px dashed --cizgi--; }
+  .modulex-randevu-zaman-ekseni-csatir dt { font-weight: 600; }
+  .modulex-randevu-zaman-ekseni-csatir dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .modulex-randevu-zaman-ekseni-csatir--kapali { color: --muted--; }
+  @media (max-width: 768px) {
+    .modulex-randevu-zaman-ekseni-alanlar { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  .modulex-randevu-zaman-ekseni-form--eksen { gap: 24px; padding: clamp(20px, 3vw, 38px); border: 1px solid --cizgi--; border-radius: --yuvarlak--; background-color: --kartBg--; box-shadow: 0 34px 70px -56px color-mix(in srgb, --text-- 70%, transparent); }
+  .modulex-randevu-zaman-ekseni-ustsira { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 18px 28px; align-items: start; }
+  .modulex-randevu-zaman-ekseni-yansec { display: grid; gap: 14px; }
+  .modulex-randevu-zaman-ekseni-hat { display: grid; gap: 10px; min-width: 0; margin: 0; padding: 0; border: 0; }
+  .modulex-randevu-zaman-ekseni-hat > legend { padding: 0; margin-block-end: 8px; }
+  .modulex-randevu-zaman-ekseni-kaydir { overflow-x: auto; padding-block: 4px 12px; scrollbar-width: thin; }
+  .modulex-randevu-zaman-ekseni-eksen { position: relative; min-inline-size: max(100%, calc(var(--n, 8) * 58px)); padding-block-start: 30px; }
+  .modulex-randevu-zaman-ekseni-cetvel { position: absolute; inset: 0; pointer-events: none; }
+  .modulex-randevu-zaman-ekseni-cizik { position: absolute; inset-block: 0 22px; inset-inline-start: var(--x); border-inline-start: 1px dashed color-mix(in srgb, --text-- 28%, transparent); }
+  .modulex-randevu-zaman-ekseni-cizet { position: absolute; inset-block-start: 0; inset-inline-start: 5px; color: --muted--; font-size: 0.74rem; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .modulex-randevu-zaman-ekseni-cizik:last-child .modulex-randevu-zaman-ekseni-cizet { inset-inline-start: auto; inset-inline-end: 5px; }
+  .modulex-randevu-zaman-ekseni-mola { position: absolute; inset-block: 30px 22px; inset-inline-start: var(--x); inline-size: var(--w); border-radius: 10px; background-color: color-mix(in srgb, --text-- 4%, transparent); background-image: repeating-linear-gradient(135deg, color-mix(in srgb, --text-- 16%, transparent) 0 5px, transparent 5px 11px); }
+  .modulex-randevu-zaman-ekseni-yol { position: relative; height: 96px; }
+  .modulex-randevu-zaman-ekseni-slot { position: absolute; inset-block: 0 22px; inset-inline-start: var(--x); inline-size: var(--w); display: grid; padding-inline: 2px; cursor: pointer; }
+  .modulex-randevu-zaman-ekseni-sgovde { display: grid; place-items: end center; padding-block-end: 8px; border: 1.5px solid color-mix(in srgb, --accent-- 40%, transparent); border-radius: 10px; background-color: color-mix(in srgb, --accent-- 9%, --bg--); color: --text--; font-size: 0.78rem; font-weight: 750; font-variant-numeric: tabular-nums; transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+  .modulex-randevu-zaman-ekseni-slot:hover .modulex-randevu-zaman-ekseni-sgovde { border-color: --accent--; transform: translateY(-3px); }
+  .modulex-randevu-zaman-ekseni-radyo:checked + .modulex-randevu-zaman-ekseni-sgovde { border-color: --accent--; background-color: --accent--; color: --accentText--; }
+  .modulex-randevu-zaman-ekseni-blok { position: absolute; inset-block-end: 4px; inset-inline-start: var(--bx, 0); inline-size: var(--bw, 0); height: 12px; border-radius: 6px; background-color: --accent--; box-shadow: 0 6px 14px -6px --accent--; transition: inset-inline-start 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), inline-size 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); pointer-events: none; }
+  .modulex-randevu-zaman-ekseni-blok.modulex-randevu-zaman-ekseni--asim { background-color: --text--; background-image: repeating-linear-gradient(45deg, --accent-- 0 6px, transparent 6px 12px); }
+  .modulex-randevu-zaman-ekseni-okuma { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; min-height: 30px; font-weight: 750; font-variant-numeric: tabular-nums; }
+  .modulex-randevu-zaman-ekseni-okuma .material-symbols-outlined { color: --accentInk--; font-size: 22px; }
+  .modulex-randevu-zaman-ekseni-okuma:has([data-eksen-cikti]:empty) { display: none; }
+  .modulex-randevu-zaman-ekseni-okuma .modulex-randevu-zaman-ekseni--asim { color: --text--; }
+  .modulex-randevu-zaman-ekseni-uyari { margin-inline-start: 8px; padding: 2px 10px; border-radius: 999px; background-color: --text--; color: --bg--; font-size: 0.82rem; font-weight: 650; }
+  .modulex-randevu-zaman-ekseni-bilgi3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .modulex-randevu-zaman-ekseni-sonsira { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 28px; }
+  .modulex-randevu-zaman-ekseni-sonsira .modulex-randevu-zaman-ekseni-onay { flex: 1 1 320px; }
+  @media (max-width: 1024px) {
+    .modulex-randevu-zaman-ekseni-ustsira { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 768px) {
+    .modulex-randevu-zaman-ekseni-bilgi3 { grid-template-columns: minmax(0, 1fr); }
+    .modulex-randevu-zaman-ekseni-eksen { min-inline-size: max(100%, calc(var(--n, 8) * 52px)); }
+  }
+
+  :is([lang="ar"], [lang="fa"], [lang="he"], [lang="ur"]) .modulex-randevu-zaman-ekseni :is(.modulex-randevu-zaman-ekseni-baslik, .modulex-randevu-zaman-ekseni-ust, h3, h4, strong) { letter-spacing: 0; }
+  :is([lang="ar"], [lang="fa"], [lang="he"], [lang="ur"]) .modulex-randevu-zaman-ekseni-baslik { line-height: 1.35; }
+  @media (max-width: 768px) {
+    .modulex-randevu-zaman-ekseni { padding-inline: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .modulex-randevu-zaman-ekseni *, .modulex-randevu-zaman-ekseni *::before, .modulex-randevu-zaman-ekseni *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+<script>
+  (() => {
+    const P = "modulex-randevu-zaman-ekseni";
+    const az = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    const randevu = (s, P) => {
+        const dl = document.documentElement.lang || undefined;
+        const iso = (t) => `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`;
+        const isoGun = (t) => ((t.getDay() + 6) % 7) + 1;
+        const coz = (v) => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || ""); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; };
+        const bicim = (o) => { try { return new Intl.DateTimeFormat(dl, o); } catch (x) { return null; } };
+        const uzun = bicim({ weekday: "long", day: "numeric", month: "long", year: "numeric" });
+        const tarihYaz = (v) => { const t = coz(v); return t && uzun ? uzun.format(t) : v || ""; };
+        s.querySelectorAll("form[data-fb-randevu]").forEach((f) => {
+          const d = f.dataset;
+          s.classList.add(P + "--rjs");
+          const gunler = String(d.gunler || "1,2,3,4,5,6,7").split(",").map(Number);
+          const kapali = String(d.kapali || "").split(",").filter(Boolean);
+          const acikMi = (t) => gunler.includes(isoGun(t)) && !kapali.includes(iso(t));
+          const bugun = new Date();
+          bugun.setHours(0, 0, 0, 0);
+          const ilkGun = new Date(bugun);
+          ilkGun.setDate(ilkGun.getDate() + (Number(d.onGun) || 0));
+          const sonGun = new Date(bugun);
+          sonGun.setDate(sonGun.getDate() + (Number(d.azamiGun) || 60));
+          const durum = f.querySelector("[role=status]");
+          const yaz = (m, hata) => { if (durum) { durum.textContent = m || ""; durum.classList.toggle(P + "-durum--hata", !!hata); } };
+          const al = (ad) => { const e = f.elements.namedItem(ad); return e && "value" in e ? String(e.value).trim() : ""; };
+          let t0 = Date.now();
+          /* tarih: sınır + kapalı gün */
+          const tarih = f.querySelector("input[type=date]");
+          const kontrol = () => { if (!tarih) return; const t = coz(tarih.value); tarih.setCustomValidity(t && !acikMi(t) ? d.kapaliMesaj || "" : ""); };
+          if (tarih) {
+            tarih.min = iso(ilkGun);
+            tarih.max = iso(sonGun);
+            tarih.addEventListener("change", kontrol);
+            tarih.addEventListener("input", kontrol);
+          }
+          /* gün şeridi: açık günlerden N düğme (yerel dilde gün adı); varsa yerel tarih alanının yerine geçer */
+          const serit = f.querySelector("[data-gun-serit]");
+          if (serit && tarih) {
+            const adet = Number(serit.dataset.gunSerit) || 14;
+            const fa = bicim({ weekday: "short" });
+            const fg = bicim({ day: "numeric" });
+            const fy = bicim({ month: "short" });
+            const t = new Date(ilkGun);
+            let n = 0;
+            for (let g = 0; n < adet && t <= sonGun && g < 400; g++) {
+              if (acikMi(t)) {
+                const l = document.createElement("label");
+                l.className = P + "-gun";
+                const r = document.createElement("input");
+                r.type = "radio";
+                r.name = "date";
+                r.value = iso(t);
+                r.className = P + "-radyo";
+                r.dataset.tarih = "1";
+                r.dataset.etiket = tarih.dataset.etiket || "";
+                if (!n) r.required = true;
+                l.append(r);
+                [[fa, "gad"], [fg, "gno"], [fy, "gay"]].forEach(([b, k]) => { const sp = document.createElement("span"); sp.className = P + "-" + k; sp.textContent = b ? b.format(t) : iso(t); l.append(sp); });
+                serit.append(l);
+                n++;
+              }
+              t.setDate(t.getDate() + 1);
+            }
+            if (n) {
+              const kap = f.querySelector("[data-gun-kap]");
+              const yerel = f.querySelector("[data-tarih-alan]");
+              if (kap) kap.hidden = false;
+              if (yerel) yerel.hidden = true;
+              tarih.disabled = true;
+            }
+          }
+          /* kişi sayacı */
+          f.querySelectorAll("[data-arti], [data-eksi]").forEach((b) => b.addEventListener("click", () => {
+            const e = f.querySelector("#" + (b.dataset.arti || b.dataset.eksi));
+            if (!e) return;
+            if (b.dataset.arti) e.stepUp(); else e.stepDown();
+            e.dispatchEvent(new Event("input", { bubbles: true }));
+          }));
+          /* satırlar: alan etiketi (data-etiket) + okunur değer; seçimde seçenek yazısı, tarihte yerel uzun tarih */
+          const satirlar = () => {
+            const out = [];
+            const gor = new Set();
+            [...f.elements].forEach((e) => {
+              if (!e.name || e.disabled || gor.has(e.name) || ["website", "kvkk", "fb-kanal"].includes(e.name) || e.type === "submit" || e.type === "button") return;
+              let v = "";
+              if (e.type === "radio") {
+                const c = [...f.elements].find((x) => x.name === e.name && x.checked && !x.disabled);
+                if (!c) return;
+                v = c.dataset.tarih ? tarihYaz(c.value) : c.dataset.metin || c.value;
+              } else if (e.type === "checkbox") {
+                if (!e.checked) return;
+                v = e.dataset.metin || e.value;
+              } else if (e.tagName === "SELECT") {
+                if (!e.value) return;
+                v = e.options[e.selectedIndex].text.trim();
+              } else if (e.type === "date") v = tarihYaz(e.value);
+              else v = String(e.value).trim();
+              gor.add(e.name);
+              if (v) out.push({ ad: e.name, et: e.dataset.etiket || e.name, v });
+            });
+            return out;
+          };
+          /* canlı özet: [data-ozet] listeleri (form dışında da olabilir, modül içinde) */
+          const ozet = () => {
+            const L = satirlar().filter((x) => x.ad !== "message");
+            s.querySelectorAll("[data-ozet]").forEach((o) => {
+              o.replaceChildren(...L.map((x) => { const li = document.createElement("li"); const b = document.createElement("b"); b.textContent = x.et; const sp = document.createElement("span"); sp.textContent = x.v; li.append(b, sp); return li; }));
+            });
+            s.classList.toggle(P + "--ozetli", L.length > 0);
+          };
+          f.addEventListener("input", ozet);
+          f.addEventListener("change", ozet);
+          /* adım sihirbazı: [data-adim] alan grupları, [data-ileri] / [data-geri], [data-adim-isaret] göstergeleri, --adim (0…1) */
+          const adimlar = [...f.querySelectorAll("[data-adim]")];
+          const isaret = [...s.querySelectorAll("[data-adim-isaret]")];
+          let ai = 0;
+          const goster = (n, odak) => {
+            ai = n;
+            adimlar.forEach((a, j) => { a.hidden = j !== n; });
+            isaret.forEach((x, j) => { if (j === n) x.setAttribute("aria-current", "step"); else x.removeAttribute("aria-current"); x.classList.toggle(P + "--tamam", j < n); });
+            s.style.setProperty("--adim", String(adimlar.length > 1 ? n / (adimlar.length - 1) : 1));
+            f.querySelectorAll("[data-geri]").forEach((b) => { b.hidden = n === 0; });
+            f.querySelectorAll("[data-ileri]").forEach((b) => { b.hidden = n === adimlar.length - 1; });
+            f.querySelectorAll("[data-son]").forEach((b) => { b.hidden = n !== adimlar.length - 1; });
+            if (odak) { const g = adimlar[n].querySelector("input:not([type=hidden]):not(:disabled), select, textarea"); if (g) g.focus(); }
+          };
+          if (adimlar.length > 1) {
+            f.querySelectorAll("[data-ileri]").forEach((b) => b.addEventListener("click", () => {
+              const kotu = [...adimlar[ai].querySelectorAll("input, select, textarea")].find((e) => e.willValidate && !e.checkValidity());
+              if (kotu) { kotu.reportValidity(); return; }
+              if (ai < adimlar.length - 1) goster(ai + 1, true);
+            }));
+            f.querySelectorAll("[data-geri]").forEach((b) => b.addEventListener("click", () => { if (ai > 0) goster(ai - 1, true); }));
+            goster(0);
+          }
+          const ics = (metin) => {
+            const t = coz(al("date"));
+            if (!t) return;
+            const sa = /^(\d{1,2}):(\d{2})$/.exec(al("time"));
+            const sec = f.querySelector("select[name=service]");
+            const r = [...f.elements].find((x) => x.name === "service" && x.checked);
+            const dk = Number((r && r.dataset.sure) || (sec && sec.selectedIndex > 0 && sec.options[sec.selectedIndex].dataset.sure) || d.sure) || 30;
+            const z = (x) => `${iso(x).replace(/-/g, "")}T${String(x.getHours()).padStart(2, "0")}${String(x.getMinutes()).padStart(2, "0")}00`;
+            const kac = (x) => String(x).replace(/\\/g, "\\\\").replace(/[,;]/g, (m) => "\\" + m).replace(/\r?\n/g, "\\n");
+            let bas = `DTSTART;VALUE=DATE:${iso(t).replace(/-/g, "")}`;
+            let bit = "";
+            if (sa) {
+              t.setHours(+sa[1], +sa[2]);
+              bas = `DTSTART:${z(t)}`;
+              bit = `DTEND:${z(new Date(t.getTime() + dk * 60000))}`;
+            }
+            const satir = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//webmaker//randevu//", "BEGIN:VEVENT", `UID:${Date.now()}-${Math.random().toString(36).slice(2)}`,
+              `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+/, "")}`, bas, bit, `SUMMARY:${kac(d.konu || document.title)}`, `DESCRIPTION:${kac(metin)}`,
+              d.yer ? `LOCATION:${kac(d.yer)}` : "", "END:VEVENT", "END:VCALENDAR"].filter(Boolean).join("\r\n");
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(new Blob([satir], { type: "text/calendar" }));
+            a.download = "randevu.ics";
+            document.body.append(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+          };
+          f.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (!f.checkValidity()) {
+              const k = [...f.elements].find((x) => x.willValidate && !x.checkValidity());
+              if (k && adimlar.length > 1) { const j = adimlar.findIndex((a) => a.contains(k)); if (j > -1 && j !== ai) goster(j); }
+              f.reportValidity();
+              return;
+            }
+            if (al("website")) return;
+            const L = satirlar();
+            const metin = (d.konu ? [d.konu, ""] : []).concat(L.map((x) => `${x.et}: ${x.v}`)).join("\n");
+            const kanal = [...f.elements].find((x) => x.name === "fb-kanal" && x.checked);
+            const g = kanal ? kanal.value : d.gonderim;
+            const hizmet = (L.find((x) => x.ad === "service") || {}).v || "";
+            if (d.action) {
+              const b = f.querySelector("[type=submit]");
+              if (b) b.disabled = true;
+              const yuk = { name: al("name"), email: al("email"), phone: al("phone"), topic: hizmet, message: metin, date: al("date"), time: al("time"), guests: al("guests"),
+                kvkk: true, lang: document.documentElement.lang || "", page: location.pathname, website: al("website"), t: Date.now() - t0 };
+              fetch(d.action, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(yuk) })
+                .then((r) => r.json().catch(() => ({})).then((j) => r.ok && j && j.ok !== false))
+                .then((ok) => { if (b) b.disabled = false; yaz(ok ? d.ok : d.hata, !ok); if (ok) { f.reset(); t0 = Date.now(); ozet(); } })
+                .catch(() => { if (b) b.disabled = false; yaz(d.hata, true); });
+              return;
+            }
+            if (g === "whatsapp" && d.wa) window.open(`https://wa.me/${d.wa}?text=${encodeURIComponent(metin)}`, "_blank", "noopener");
+            else if (g === "ics") ics(metin);
+            else if (d.eposta) location.href = `mailto:${d.eposta}?subject=${encodeURIComponent(d.konu || "")}&body=${encodeURIComponent(metin.replace(/\n/g, "\r\n"))}`;
+            else if (d.wa) window.open(`https://wa.me/${d.wa}?text=${encodeURIComponent(metin)}`, "_blank", "noopener");
+            yaz(d.ok, false);
+          });
+          ozet();
+        });
+      };
+    const eksen = (s, P) => {
+        s.querySelectorAll("[data-eksen]").forEach((x) => {
+          const f = x.closest("form");
+          if (!f) return;
+          const bas = Number(x.dataset.bas) || 0;
+          const son = Number(x.dataset.son) || bas + 60;
+          const aralik = Math.max(1, son - bas);
+          const mola = String(x.dataset.mola || "").split(",").filter(Boolean).map((p) => p.split("-").map(Number));
+          const blok = x.querySelector("[data-eksen-blok]");
+          const cikti = s.querySelector("[data-eksen-cikti]");
+          const ss = (m) => `${String(Math.floor(m / 60) % 24).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
+          const sure = () => {
+            const r = [...f.elements].find((e) => e.name === "service" && e.checked);
+            const sec = f.querySelector("select[name=service]");
+            return Number((r && r.dataset.sure) || (sec && sec.selectedIndex > 0 && sec.options[sec.selectedIndex].dataset.sure) || f.dataset.sure) || 30;
+          };
+          const ciz = () => {
+            const t = [...f.querySelectorAll("input[data-dk]")].find((e) => e.checked);
+            if (!t) { if (blok) blok.hidden = true; if (cikti) cikti.replaceChildren(); return; }
+            const a = Number(t.dataset.dk);
+            const dk = sure();
+            const b = a + dk;
+            const asim = b > son || mola.some((m) => a < m[1] && b > m[0]);
+            if (blok) {
+              blok.hidden = false;
+              blok.style.setProperty("--bx", ((a - bas) / aralik) * 100 + "%");
+              blok.style.setProperty("--bw", (Math.max(0, Math.min(b, son) - a) / aralik) * 100 + "%");
+              blok.classList.toggle(P + "--asim", asim);
+            }
+            if (cikti) {
+              const bd = document.createElement("bdi");
+              bd.dir = "ltr";
+              bd.textContent = `${ss(a)} – ${ss(b)}`;
+              const L = [bd];
+              if (asim && cikti.dataset.asim) { const u = document.createElement("span"); u.className = P + "-uyari"; u.textContent = cikti.dataset.asim; L.push(u); }
+              cikti.replaceChildren(...L);
+              cikti.classList.toggle(P + "--asim", asim);
+            }
+          };
+          f.addEventListener("change", ciz);
+          f.addEventListener("reset", () => setTimeout(ciz));
+          s.classList.add(P + "--ejs");
+          ciz();
+        });
+      };
+    document.querySelectorAll("." + P).forEach((s) => {
+      if (s.dataset.fbHazir) return;
+      s.dataset.fbHazir = "1";
+      randevu(s, P, az);
+      eksen(s, P, az);
+    });
+  })();
+</script>

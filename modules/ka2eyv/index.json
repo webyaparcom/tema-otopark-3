@@ -1,0 +1,61 @@
+{
+  "name": "Otopark Süre Cetveli — orantılı tarife dilimleri cetveli ve süre sürgüsü",
+  "description": "Saat çentikli yatay bir cetvel: her tarife dilimi süresiyle orantılı bir bölüm (dilim adı, fiyat, bitiş saati). Altında park süresi sürgüsü; sürgü hangi dilime düşüyorsa o bölüm kalkar, süre ve dilim fiyatı büyük gösterilir. Bitiş saati olmayan kayıtlar (aylık abonelik, gece tarifesi) cetvelin altında ek tarife kartları. Kayıt alanları: `bitis` (saat) · `fiyat`. JS yokken cetvel ve ek kartlar tam; sürgü gizli. kargo-desi-hesap'ın çok alanlı formu + bölge × desi matrisinden farkı: tek sürgü ve süreyle orantılı genişlikte dilim bölümlerinden oluşan cetvel (çentikli eksen, etkin dilim kalkar); hafta-zaman-cizelgesi'nin eşit aralıklı hafta işaretlerinden farklı olarak bölüm genişliği süre ile ölçeklenir. Metinler dil sözlüğü, renkler desing + var(--mx-site-*), mantıksal CSS → RTL. Başlık ve metin yoksa blok basılmaz.",
+  "version": "1.0.0",
+  "icon": "local_parking",
+  "category": "module",
+  "subCategory": "tariff-ruler",
+  "tags": [
+    "module",
+    "parking",
+    "tariff",
+    "ruler",
+    "slider",
+    "interactive",
+    "rtl",
+    "fabrika"
+  ],
+  "desing": {
+    "max": "1160px",
+    "bosluk": "clamp(56px, 8vw, 104px)",
+    "yuvarlak": "18px",
+    "ust": "",
+    "baslik": "",
+    "metin": "",
+    "img": "",
+    "img2": "",
+    "cta_ad": "",
+    "cta_url": "",
+    "cta2_ad": "",
+    "cta2_url": "",
+    "bg": "var(--mx-site-bg, #ffffff)",
+    "text": "var(--mx-site-text, #111318)",
+    "muted": "color-mix(in srgb, var(--mx-site-text, #111318) 68%, var(--mx-site-bg, #ffffff))",
+    "kartBg": "var(--mx-site-surface, #f6f7f9)",
+    "cizgi": "color-mix(in srgb, var(--mx-site-text, #111318) 12%, transparent)",
+    "accent": "var(--mx-site-primary, #2563eb)",
+    "accentInk": "color-mix(in srgb, var(--mx-site-primary, #2563eb) 70%, var(--mx-site-text, #111318))",
+    "accentText": "var(--mx-site-primary-contrast, #ffffff)",
+    "vurguBg": "var(--mx-site-primary, #2563eb)",
+    "vurguText": "var(--mx-site-primary-contrast, #ffffff)",
+    "paraBirimi": "",
+    "saatAd": "",
+    "sureAd": "",
+    "sonucAd": "",
+    "baslangicSure": 2.5,
+    "bgcolor": "var(--mx-site-bg, #ffffff)",
+    "color": "var(--mx-site-text, #111318)"
+  },
+  "data": [],
+  "veri": {
+    "statik": true,
+    "dinamik": false,
+    "kaynak": "desing/data",
+    "alanlar": {
+      "ikon": "madde ikonu (Material Symbols)",
+      "baslik": "madde başlığı (dil sözlüğü, zorunlu)",
+      "metin": "madde metni (dil sözlüğü)",
+      "url": "madde bağlantısı"
+    }
+  }
+}

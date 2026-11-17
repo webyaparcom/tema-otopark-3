@@ -1,0 +1,167 @@
+<header class="modulex-ust-sayfa-gecis{{fbsinif}}" {{fbetiket}}>
+  <div class="modulex-ust-sayfa-gecis-ic">
+    {{fbbas}}
+    {{fbgovde}}
+  </div>
+</header>
+
+<style>
+  /* ust-sayfa-gecis — Menü bir katalog/sergi gibi sıralı gezilir: bulunulan sayfanın sırası ve komşuları başlıkta (önceki/sonraki + sayaç) — liste menülerden farklı olarak doğrusal ilerleme. */
+  .modulex-ust-sayfa-gecis { box-sizing: border-box; width: 100%; padding: --bosluk-- 20px; background: --bg--; color: --text--; font-size: 1rem; line-height: 1.6; font-family: var(--mx-font-sans, inherit); overflow-wrap: break-word; }
+  .modulex-ust-sayfa-gecis *, .modulex-ust-sayfa-gecis *::before, .modulex-ust-sayfa-gecis *::after { box-sizing: border-box; }
+  /* ham/css.css «* { font-size: 14px }» kalıtımı keser — modül içinde boyut üstten gelsin (ikon yazı tipi hariç) */
+  .modulex-ust-sayfa-gecis :where(*:not(.material-symbols-outlined)) { font-size: inherit; }
+  /* aynı «*» kuralı font-weight 400 · line-height 1.2 · font-family de basar — modül içinde kalıtım */
+  .modulex-ust-sayfa-gecis :where(*:not(.material-symbols-outlined)) { font-weight: inherit; line-height: inherit; font-family: inherit; }
+  .modulex-ust-sayfa-gecis :where(h2, h3, h4, p, ul, ol, li, figure, blockquote, dl, dd) { margin: 0; }
+  .modulex-ust-sayfa-gecis :where(ul, ol) { padding: 0; list-style: none; }
+  .modulex-ust-sayfa-gecis img { display: block; max-width: 100%; }
+  /* <img width height> öznitelik yüksekliği CSS aspect-ratio'yu ezer — sıfır özgüllükle auto (modül sınıfının height'ı yine kazanır) */
+  :where(.modulex-ust-sayfa-gecis) img { height: auto; }
+  .modulex-ust-sayfa-gecis [hidden] { display: none !important; }
+  .modulex-ust-sayfa-gecis :where(a, button, summary, [data-cevir]) { cursor: pointer; }
+  .modulex-ust-sayfa-gecis :where(a, button, summary, [tabindex]):focus-visible { outline: 3px solid --accent--; outline-offset: 3px; }
+  .modulex-ust-sayfa-gecis-ic { max-width: --max--; margin-inline: auto; }
+  .modulex-ust-sayfa-gecis-bas { display: grid; gap: 12px; margin-block-end: clamp(32px, 4vw, 52px); }
+  .modulex-ust-sayfa-gecis--bassiz .modulex-ust-sayfa-gecis-bas { display: none; }
+  .modulex-ust-sayfa-gecis-ust { color: --accentInk--; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+  .modulex-ust-sayfa-gecis-baslik { font-family: var(--mx-font-heading, inherit); font-size: clamp(1.8rem, 3.4vw, 2.8rem); font-weight: 750; letter-spacing: -0.025em; line-height: 1.1; }
+  .modulex-ust-sayfa-gecis-metin { color: --muted--; font-size: 1.05rem; line-height: 1.7; }
+  .modulex-ust-sayfa-gecis-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-block-start: 8px; }
+  .modulex-ust-sayfa-gecis-dugme { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 12px 22px; border: 2px solid --accent--; border-radius: 999px; background: --accent--; color: --accentText--; font-weight: 700; text-decoration: none; transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease; }
+  .modulex-ust-sayfa-gecis-dugme:hover { transform: translateY(-2px); }
+  .modulex-ust-sayfa-gecis-dugme--ikincil { background: transparent; color: --text--; border-color: --cizgi--; }
+  .modulex-ust-sayfa-gecis-dugme--ikincil:hover { border-color: --accent--; }
+  .modulex-ust-sayfa-gecis-dugme .material-symbols-outlined { font-size: 20px; }
+
+  .modulex-ust-sayfa-gecis { position: relative; z-index: 900; }
+  .modulex-ust-sayfa-gecis-logo { display: inline-flex; flex: 0 1 auto; min-width: 0; align-items: center; color: inherit; text-decoration: none; }
+  /* dar ekranda geniş logo/uzun ad çubuğu taşırmasın: logo daralır (img max-width 100%), ad sarar */
+  .modulex-ust-sayfa-gecis-logo img { width: auto; max-height: --logoH--; }
+  .modulex-ust-sayfa-gecis-ad { font-family: var(--mx-font-heading, inherit); font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+  .modulex-ust-sayfa-gecis-oge { position: relative; display: inline-flex; align-items: center; min-height: 44px; color: inherit; font-weight: 600; text-decoration: none; transition: color 0.2s ease, background 0.2s ease; }
+  .modulex-ust-sayfa-gecis-oge:hover, .modulex-ust-sayfa-gecis-oge[aria-current="page"] { color: --accentInk--; }
+  .modulex-ust-sayfa-gecis-cta { display: inline-flex; flex: none; align-items: center; gap: 6px; min-height: 44px; padding: 8px 18px; border-radius: 999px; background: --accent--; color: --accentText--; font-weight: 700; text-decoration: none; white-space: nowrap; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .modulex-ust-sayfa-gecis-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -12px --accent--; }
+  .modulex-ust-sayfa-gecis-cta .material-symbols-outlined, .modulex-ust-sayfa-gecis-tel .material-symbols-outlined, .modulex-ust-sayfa-gecis-posta .material-symbols-outlined { font-size: 18px; }
+  .modulex-ust-sayfa-gecis-tel, .modulex-ust-sayfa-gecis-posta { display: inline-flex; align-items: center; gap: 6px; color: inherit; text-decoration: none; white-space: nowrap; }
+  .modulex-ust-sayfa-gecis-tel:hover, .modulex-ust-sayfa-gecis-posta:hover { color: --accentInk--; }
+  .modulex-ust-sayfa-gecis-dil:empty { display: none; }
+  .modulex-ust-sayfa-gecis-ac { display: none; align-items: center; gap: 10px; min-width: 46px; min-height: 46px; padding: 0 12px; border: 1px solid --cizgi--; border-radius: 999px; background: transparent; color: inherit; font: inherit; font-weight: 700; }
+  .modulex-ust-sayfa-gecis-ac-ikon { display: grid; gap: 4px; width: 20px; }
+  .modulex-ust-sayfa-gecis-ac-ikon span { display: block; height: 2px; border-radius: 2px; background: currentColor; transition: transform 0.3s ease, opacity 0.3s ease; }
+  .modulex-ust-sayfa-gecis--acik .modulex-ust-sayfa-gecis-ac-ikon span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+  .modulex-ust-sayfa-gecis--acik .modulex-ust-sayfa-gecis-ac-ikon span:nth-child(2) { opacity: 0; }
+  .modulex-ust-sayfa-gecis--acik .modulex-ust-sayfa-gecis-ac-ikon span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+  .modulex-ust-sayfa-gecis-kapat { display: inline-grid; place-items: center; width: 46px; height: 46px; border: 1px solid --cizgi--; border-radius: 50%; background: transparent; color: inherit; }
+  .modulex-ust-sayfa-gecis-perde { position: fixed; inset: 0; z-index: 1; background: color-mix(in srgb, --text-- 45%, transparent); animation: modulex-ust-sayfa-gecis-sol 0.3s ease both; }
+  @keyframes modulex-ust-sayfa-gecis-sol { from { opacity: 0; } to { opacity: 1; } }
+
+  .modulex-ust-sayfa-gecis-kat { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 12px 24px; padding-block: 12px; }
+  .modulex-ust-sayfa-gecis-uc { display: flex; align-items: center; justify-content: flex-end; gap: 12px; }
+  .modulex-ust-sayfa-gecis--js .modulex-ust-sayfa-gecis-ac { display: inline-flex; }
+  .modulex-ust-sayfa-gecis--js .modulex-ust-sayfa-gecis-nav--yedek { display: none; }
+  .modulex-ust-sayfa-gecis-nav--yedek .modulex-ust-sayfa-gecis-liste { display: flex; flex-wrap: wrap; gap: 4px 22px; padding-block-end: 12px; }
+  .modulex-ust-sayfa-gecis-sayfalayici { display: flex; align-items: center; gap: 6px; padding: 4px; border-radius: 999px; background-color: --kartBg--; box-shadow: inset 0 0 0 1px --cizgi--; }
+  .modulex-ust-sayfa-gecis-git { display: inline-flex; align-items: center; gap: 10px; min-width: 46px; min-height: 46px; padding-inline: 5px 14px; border-radius: 999px; color: inherit; text-decoration: none; transition: background-color 0.25s ease, color 0.25s ease; }
+  .modulex-ust-sayfa-gecis-git--ileri { flex-direction: row-reverse; padding-inline: 14px 5px; }
+  .modulex-ust-sayfa-gecis-git:not(.modulex-ust-sayfa-gecis-git--yok):hover { background-color: --bg--; color: --accentInk--; }
+  .modulex-ust-sayfa-gecis-gitok { display: inline-grid; flex: none; place-items: center; width: 36px; height: 36px; border-radius: 50%; background-color: --bg--; font-size: 20px; transition: transform 0.25s ease; }
+  .modulex-ust-sayfa-gecis-git--geri:hover .modulex-ust-sayfa-gecis-gitok { transform: translateX(-3px); }
+  .modulex-ust-sayfa-gecis-git--ileri:hover .modulex-ust-sayfa-gecis-gitok { transform: translateX(3px); }
+  [dir="rtl"] .modulex-ust-sayfa-gecis-git--geri:hover .modulex-ust-sayfa-gecis-gitok { transform: translateX(3px); }
+  [dir="rtl"] .modulex-ust-sayfa-gecis-git--ileri:hover .modulex-ust-sayfa-gecis-gitok { transform: translateX(-3px); }
+  .modulex-ust-sayfa-gecis-gityazi { display: grid; line-height: 1.2; }
+  .modulex-ust-sayfa-gecis-git--ileri .modulex-ust-sayfa-gecis-gityazi { text-align: end; }
+  .modulex-ust-sayfa-gecis-gitbas { color: --muted--; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .modulex-ust-sayfa-gecis-gitad { max-width: 150px; overflow: hidden; font-weight: 700; text-overflow: ellipsis; white-space: nowrap; }
+  .modulex-ust-sayfa-gecis-sayac { display: grid; justify-items: center; min-width: 120px; padding-inline: 10px; line-height: 1.1; }
+  .modulex-ust-sayfa-gecis-simdi { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mx-font-heading, inherit); font-variant-numeric: tabular-nums; }
+  .modulex-ust-sayfa-gecis-no { color: --accentInk--; font-size: 1.6rem; font-weight: 900; }
+  .modulex-ust-sayfa-gecis-top { color: --muted--; font-size: 0.9rem; font-weight: 700; }
+  .modulex-ust-sayfa-gecis-bolu { width: 2px; height: 22px; border-radius: 2px; background-color: --cizgi--; transform: rotate(20deg); }
+  .modulex-ust-sayfa-gecis-sad { max-width: 170px; overflow: hidden; color: --muted--; font-size: 0.78rem; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+  .modulex-ust-sayfa-gecis-panel { position: absolute; inset-inline: 0; inset-block-start: 100%; z-index: 5; display: grid; gap: 16px; padding: 18px 20px 22px; border-block-end: 1px solid --cizgi--; background-color: --bg--; box-shadow: 0 26px 44px -30px color-mix(in srgb, --text-- 60%, transparent); animation: modulex-ust-sayfa-gecis-iner 0.3s ease both; }
+  @keyframes modulex-ust-sayfa-gecis-iner { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+  .modulex-ust-sayfa-gecis-dizin { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+  .modulex-ust-sayfa-gecis-doge { display: flex; align-items: center; gap: 12px; min-height: 52px; padding: 8px 14px; border: 1px solid --cizgi--; border-radius: 14px; color: inherit; font-weight: 700; text-decoration: none; transition: border-color 0.2s ease, transform 0.2s ease; }
+  .modulex-ust-sayfa-gecis-doge:hover { border-color: --accent--; transform: translateY(-2px); }
+  .modulex-ust-sayfa-gecis-doge[aria-current="page"] { border-color: --accent--; background-color: color-mix(in srgb, --accent-- 10%, --bg--); }
+  .modulex-ust-sayfa-gecis-dno { color: --accentInk--; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+  .modulex-ust-sayfa-gecis-palt { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; padding-block-start: 14px; border-block-start: 1px solid --cizgi--; }
+  @media (max-width: 1024px) {
+    .modulex-ust-sayfa-gecis-gityazi { display: none; }
+    .modulex-ust-sayfa-gecis-git, .modulex-ust-sayfa-gecis-git--ileri { padding: 5px; }
+  }
+  @media (max-width: 768px) {
+    .modulex-ust-sayfa-gecis-kat { grid-template-columns: minmax(0, 1fr) auto; }
+    .modulex-ust-sayfa-gecis-sayfalayici { grid-column: 1 / -1; grid-row: 2; justify-content: space-between; }
+    .modulex-ust-sayfa-gecis-uc .modulex-ust-sayfa-gecis-cta { display: none; }
+    .modulex-ust-sayfa-gecis-ac-yazi { display: none; }
+  }
+
+  :is([lang="ar"], [lang="fa"], [lang="he"], [lang="ur"]) .modulex-ust-sayfa-gecis :is(.modulex-ust-sayfa-gecis-baslik, .modulex-ust-sayfa-gecis-ust, h3, h4, strong) { letter-spacing: 0; }
+  :is([lang="ar"], [lang="fa"], [lang="he"], [lang="ur"]) .modulex-ust-sayfa-gecis-baslik { line-height: 1.35; }
+  @media (max-width: 768px) {
+    .modulex-ust-sayfa-gecis { padding-inline: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .modulex-ust-sayfa-gecis *, .modulex-ust-sayfa-gecis *::before, .modulex-ust-sayfa-gecis *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+<script>
+  (() => {
+    const P = "modulex-ust-sayfa-gecis";
+    const az = !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+    const cekmece = (s, P) => {
+          const ac = s.querySelector("." + P + "-ac");
+          const panel = ac ? document.getElementById(ac.getAttribute("aria-controls")) : null;
+          if (!ac || !panel) return;
+          s.classList.add(P + "--js");
+          const perde = s.querySelector("." + P + "-perde");
+          const modal = panel.getAttribute("aria-modal") === "true";
+          const kok = document.documentElement;
+          const kapa = (odak) => {
+            if (panel.hidden) return;
+            panel.hidden = true;
+            if (perde) perde.hidden = true;
+            ac.setAttribute("aria-expanded", "false");
+            s.classList.remove(P + "--acik");
+            if (modal) kok.style.overflow = "";
+            if (odak) ac.focus();
+          };
+          const aci = () => {
+            panel.hidden = false;
+            if (perde) perde.hidden = false;
+            ac.setAttribute("aria-expanded", "true");
+            s.classList.add(P + "--acik");
+            if (modal) kok.style.overflow = "hidden";
+            const ilk = panel.querySelector("a[href], button");
+            if (ilk) ilk.focus();
+          };
+          ac.addEventListener("click", () => (panel.hidden ? aci() : kapa(true)));
+          panel.addEventListener("click", (e) => {
+            if (e.target.closest("." + P + "-kapat")) kapa(true);
+            else if (e.target.closest("a[href]")) kapa(false);
+          });
+          if (perde) perde.addEventListener("click", () => kapa(true));
+          document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !panel.hidden) kapa(true); });
+          if (modal) {
+            panel.addEventListener("keydown", (e) => {
+              if (e.key !== "Tab") return;
+              const o = [...panel.querySelectorAll("a[href], button:not([disabled])")].filter((x) => x.offsetParent !== null);
+              if (!o.length) return;
+              if (e.shiftKey && document.activeElement === o[0]) { e.preventDefault(); o[o.length - 1].focus(); }
+              else if (!e.shiftKey && document.activeElement === o[o.length - 1]) { e.preventDefault(); o[0].focus(); }
+            });
+          }
+          const g = Number(ac.dataset.genis);
+          if (g && window.matchMedia) window.matchMedia(`(min-width: ${g}px)`).addEventListener("change", (m) => { if (m.matches) kapa(false); });
+        };
+    document.querySelectorAll("." + P).forEach((s) => {
+      if (s.dataset.fbHazir) return;
+      s.dataset.fbHazir = "1";
+      cekmece(s, P, az);
+    });
+  })();
+</script>
