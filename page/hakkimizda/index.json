@@ -1,0 +1,46 @@
+{
+  "name": {
+    "tr": "Tarife",
+    "en": "Rates",
+    "ar": "التعرفة"
+  },
+  "status": "play",
+  "category": "",
+  "id": "hakkimizda",
+  "url": "",
+  "path": "hakkimizda",
+  "index": 0,
+  "icon": "payments",
+  "desing": {
+    "header": [],
+    "body": [
+      "ka2eyv"
+    ],
+    "footer": []
+  },
+  "pathnext": "",
+  "description": {
+    "tr": "Süreyle orantılı tarife cetveli; fiyatlar KDV dahil (kurgusal).",
+    "en": "A time-scaled rate ruler; prices incl. VAT (fictional).",
+    "ar": "مسطرة تعرفة متناسبة مع المدة؛ الأسعار شاملة الضريبة (افتراضية)."
+  },
+  "spot": {
+    "tr": "",
+    "en": "",
+    "ar": ""
+  },
+  "desc": {},
+  "title": {
+    "tr": "Tarife",
+    "en": "Rates",
+    "ar": "التعرفة"
+  },
+  "keyword": {
+    "tr": "otopark ücreti, tarife",
+    "en": "parking fee, rates",
+    "ar": "رسوم الموقف، التعرفة"
+  },
+  "text": {},
+  "update": "2026-11-16T22:37:48.392Z",
+  "date": "2026-10-30"
+}

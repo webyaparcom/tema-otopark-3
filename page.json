@@ -1,0 +1,85 @@
+{
+  "data": [
+    {
+      "name": {
+        "tr": "Tarife",
+        "en": "Rates",
+        "ar": "التعرفة"
+      },
+      "status": "play",
+      "id": "hakkimizda",
+      "path": "hakkimizda",
+      "category": "",
+      "url": "",
+      "index": 0,
+      "icon": "payments",
+      "desing": {
+        "header": [],
+        "body": [
+          "ka2eyv"
+        ],
+        "footer": []
+      },
+      "pathnext": "",
+      "description": {
+        "tr": "Süreyle orantılı tarife cetveli; fiyatlar KDV dahil (kurgusal).",
+        "en": "A time-scaled rate ruler; prices incl. VAT (fictional).",
+        "ar": "مسطرة تعرفة متناسبة مع المدة؛ الأسعار شاملة الضريبة (افتراضية)."
+      }
+    },
+    {
+      "id": "h1s0jwzknt",
+      "name": {
+        "tr": "Yer ayır",
+        "en": "Reserve",
+        "ar": "احجز"
+      },
+      "description": {
+        "tr": "Saat eksenli yer ayırma talebi (demo).",
+        "en": "Time-axis reservation request (demo).",
+        "ar": "طلب حجز على محور زمني (تجريبي)."
+      },
+      "path": "teklif-al",
+      "icon": "event_available",
+      "category": "",
+      "status": "play",
+      "desing": {
+        "header": [],
+        "body": [
+          "573mfa"
+        ],
+        "footer": []
+      },
+      "index": 1
+    },
+    {
+      "name": {
+        "tr": "Ulaşım",
+        "en": "Getting here",
+        "ar": "الوصول"
+      },
+      "status": "play",
+      "id": "iletisim",
+      "path": "iletisim",
+      "category": "",
+      "url": "",
+      "index": 2,
+      "icon": "directions",
+      "desing": {
+        "header": [],
+        "body": [
+          "ztnbxr",
+          "k8mp01"
+        ],
+        "footer": []
+      },
+      "pathnext": "",
+      "description": {
+        "tr": "Adres, giriş, telefon, WhatsApp ve saatler.",
+        "en": "Address, entrance, phone, WhatsApp and hours.",
+        "ar": "العنوان والمدخل والهاتف وواتساب والساعات."
+      }
+    }
+  ],
+  "desc": []
+}

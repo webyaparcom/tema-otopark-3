@@ -1,0 +1,54 @@
+{
+  "order": false,
+  "user": false,
+  "description": {
+    "tr": "Dakika Park: Şehitkamil’de 7/24 açık otopark; süreyle orantılı tarife cetveli, saat eksenli yer ayırma ve KDV dahil kurgusal fiyatlar. Demo site.",
+    "en": "Dakika Park: a 24/7 open-air car park in Sehitkamil; a rate ruler scaled to time, time-axis reservations and fictional prices incl. VAT. Demo site.",
+    "ar": "داكيكا بارك: موقف سيارات مكشوف مفتوح على مدار الساعة في شهيد كامل؛ مسطرة تعرفة متناسبة مع المدة وحجز على محور زمني وأسعار افتراضية شاملة الضريبة. موقع تجريبي."
+  },
+  "keyword": {
+    "tr": "otopark, saatlik otopark, otopark ücreti, aylık abonelik, otopark rezervasyonu",
+    "en": "car park, hourly parking, parking fee, monthly pass, parking reservation",
+    "ar": "موقف سيارات، موقف بالساعة، رسوم الموقف، اشتراك شهري، حجز موقف"
+  },
+  "category": "Kurumsal",
+  "name": "Dakika Park",
+  "domain": "otopark-3.webyapar.com",
+  "langs": {
+    "tr": true,
+    "en": true,
+    "ar": true,
+    "de": false,
+    "ru": false,
+    "es": false,
+    "fr": false,
+    "it": false,
+    "ja": false,
+    "zh": false,
+    "ko": false,
+    "pt": false
+  },
+  "logo": "logo.png",
+  "multi": false,
+  "publishMode": "static",
+  "font": {
+    "body": "noto-sans",
+    "heading": "nunito",
+    "ar": {
+      "body": "noto-naskh-arabic",
+      "heading": "noto-kufi-arabic"
+    }
+  },
+  "colorScheme": "auto",
+  "theme_color": "#60A5FA",
+  "seo": {
+    "noindex": true
+  },
+  "cssTokens": {
+    "--mx-radius-sm": "6px",
+    "--mx-radius-md": "10px",
+    "--mx-radius-lg": "14px",
+    "--mx-radius-xl": "19px"
+  },
+  "icon": "icon.png"
+}
