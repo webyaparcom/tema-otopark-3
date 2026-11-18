@@ -3,17 +3,23 @@
   "name": {
     "tr": "Vizyon",
     "en": "Vision",
-    "ar": "الرؤية"
+    "ar": "الرؤية",
+    "de": "Vision",
+    "ru": "Видение"
   },
   "description": {
     "tr": "Vizyonumuz",
     "en": "Our vision",
-    "ar": "رؤيتنا"
+    "ar": "رؤيتنا",
+    "de": "Unsere Vision",
+    "ru": "Наше видение"
   },
   "keyword": {
     "tr": "Vizyon",
     "en": "vision, our vision, goals",
-    "ar": "الرؤية, رؤيتنا, الأهداف"
+    "ar": "الرؤية, رؤيتنا, الأهداف",
+    "de": "Vision",
+    "ru": "Видение"
   },
   "path": "vizyon",
   "icon": "visibility",
@@ -29,12 +35,16 @@
   "text": {
     "tr": "<h2>Vizyonumuz</h2>\n<p>Şehirde tarifesini en açık gösteren mahalle otoparklarından biri olmak.</p>",
     "en": "<h2>Our vision</h2>\n<p>To be one of the city’s neighbourhood car parks that shows its rates most clearly.</p>",
-    "ar": "<h2>رؤيتنا</h2>\n<p>أن نكون من مواقف الأحياء في المدينة التي تعرض تعرفتها بأوضح شكل.</p>"
+    "ar": "<h2>رؤيتنا</h2>\n<p>أن نكون من مواقف الأحياء في المدينة التي تعرض تعرفتها بأوضح شكل.</p>",
+    "de": "<h2>Unsere Vision</h2>\n<p>Einer der Nachbarschaftsparkplätze der Stadt zu sein, die ihren Tarif am deutlichsten zeigen.</p>",
+    "ru": "<h2>Наше видение</h2>\n<p>Стать одной из районных парковок города, которая наиболее наглядно показывает свой тариф.</p>"
   },
   "title": {
     "tr": "Vizyon",
     "en": "Vision",
-    "ar": "الرؤية"
+    "ar": "الرؤية",
+    "de": "Vision",
+    "ru": "Видение"
   },
   "date": "2026-11-16T22:34:51.731Z",
   "update": "2026-11-16T22:37:48.448Z",
