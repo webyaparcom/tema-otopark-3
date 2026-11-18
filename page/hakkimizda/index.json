@@ -2,7 +2,9 @@
   "name": {
     "tr": "Tarife",
     "en": "Rates",
-    "ar": "التعرفة"
+    "ar": "التعرفة",
+    "de": "Tarife",
+    "ru": "Тарифы"
   },
   "status": "play",
   "category": "",
@@ -22,7 +24,9 @@
   "description": {
     "tr": "Süreyle orantılı tarife cetveli; fiyatlar KDV dahil (kurgusal).",
     "en": "A time-scaled rate ruler; prices incl. VAT (fictional).",
-    "ar": "مسطرة تعرفة متناسبة مع المدة؛ الأسعار شاملة الضريبة (افتراضية)."
+    "ar": "مسطرة تعرفة متناسبة مع المدة؛ الأسعار شاملة الضريبة (افتراضية).",
+    "de": "Tarifübersicht proportional zur Dauer; Preise inklusive MwSt. (fiktiv).",
+    "ru": "Тарифная сетка пропорционально времени; цены с НДС (вымышленные)."
   },
   "spot": {
     "tr": "",
@@ -33,12 +37,16 @@
   "title": {
     "tr": "Tarife",
     "en": "Rates",
-    "ar": "التعرفة"
+    "ar": "التعرفة",
+    "de": "Tarife",
+    "ru": "Тарифы"
   },
   "keyword": {
     "tr": "otopark ücreti, tarife",
     "en": "parking fee, rates",
-    "ar": "رسوم الموقف، التعرفة"
+    "ar": "رسوم الموقف، التعرفة",
+    "de": "Parkgebühr, Tarif",
+    "ru": "плата за парковку, тариф"
   },
   "text": {},
   "update": "2026-11-16T22:37:48.392Z",

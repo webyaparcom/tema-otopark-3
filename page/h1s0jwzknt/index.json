@@ -3,17 +3,23 @@
   "name": {
     "tr": "Yer ayır",
     "en": "Reserve",
-    "ar": "احجز"
+    "ar": "احجز",
+    "de": "Reservieren",
+    "ru": "Забронировать"
   },
   "description": {
     "tr": "Saat eksenli yer ayırma talebi (demo).",
     "en": "Time-axis reservation request (demo).",
-    "ar": "طلب حجز على محور زمني (تجريبي)."
+    "ar": "طلب حجز على محور زمني (تجريبي).",
+    "de": "Reservierungsanfrage nach Uhrzeit (Demo).",
+    "ru": "Заявка на бронирование по времени (демо)."
   },
   "keyword": {
     "tr": "otopark rezervasyonu",
     "en": "parking reservation",
-    "ar": "حجز موقف"
+    "ar": "حجز موقف",
+    "de": "Parkplatzreservierung",
+    "ru": "бронирование парковки"
   },
   "path": "teklif-al",
   "icon": "event_available",
@@ -32,7 +38,9 @@
   "title": {
     "tr": "Yer ayır",
     "en": "Reserve",
-    "ar": "احجز"
+    "ar": "احجز",
+    "de": "Reservieren",
+    "ru": "Забронировать"
   },
   "date": "2026-11-16T22:34:52.027Z",
   "update": "2026-11-16T22:37:48.410Z"

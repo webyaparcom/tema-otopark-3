@@ -2,7 +2,9 @@
   "name": {
     "tr": "Ulaşım",
     "en": "Getting here",
-    "ar": "الوصول"
+    "ar": "الوصول",
+    "de": "Anfahrt",
+    "ru": "Проезд"
   },
   "status": "play",
   "category": "",
@@ -23,7 +25,9 @@
   "description": {
     "tr": "Adres, giriş, telefon, WhatsApp ve saatler.",
     "en": "Address, entrance, phone, WhatsApp and hours.",
-    "ar": "العنوان والمدخل والهاتف وواتساب والساعات."
+    "ar": "العنوان والمدخل والهاتف وواتساب والساعات.",
+    "de": "Adresse, Eingang, Telefon, WhatsApp und Zeiten.",
+    "ru": "Адрес, вход, телефон, WhatsApp и часы работы."
   },
   "spot": {
     "tr": "",
@@ -34,12 +38,16 @@
   "title": {
     "tr": "Ulaşım",
     "en": "Getting here",
-    "ar": "الوصول"
+    "ar": "الوصول",
+    "de": "Anfahrt",
+    "ru": "Проезд"
   },
   "keyword": {
     "tr": "iletişim",
     "en": "contact",
-    "ar": "اتصال"
+    "ar": "اتصال",
+    "de": "Kontakt",
+    "ru": "контакты"
   },
   "text": {},
   "update": "2026-11-16T22:37:48.421Z",
